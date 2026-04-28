@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reseaux Informatiques - Plateforme d'apprentissage</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .landing { margin-left: 0; }
+    .landing .page-content { max-width: 100%; padding: 0; }
+    .hero {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      color: white;
+      padding: 100px 32px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero .btn-primary {
+      background: #3B82F6;
+      font-size: 1rem;
+      padding: 14px 32px;
+    }
+    .hero .btn-secondary {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.3);
+      color: white;
+    }
+    .hero .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: white;
+    }
+    .features {
+      padding: 80px 32px;
+      background: #F8FAFC;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: white;
+      padding: 32px;
+      border-radius: 16px;
+      border: 1px solid #E2E8F0;
+      text-align: center;
+    }
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      background: #DBEAFE;
+      color: #3B82F6;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .feature-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0F172A;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      color: #64748B;
+      font-size: 0.9rem;
+    }
+    .stats {
+      padding: 60px 32px;
+      background: white;
+      border-top: 1px solid #E2E8F0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #3B82F6;
+    }
+    .stat-label {
+      color: #64748B;
+      font-size: 0.9rem;
+    }
+    .chapters-preview {
+      padding: 80px 32px;
+      background: #F8FAFC;
+    }
+    .chapters-preview h2 {
+      text-align: center;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 40px;
+    }
+    .chapter-list {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .chapter-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      border: 1px solid #E2E8F0;
+    }
+    .chapter-num {
+      width: 40px;
+      height: 40px;
+      background: #3B82F6;
+      color: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .chapter-info h4 {
+      font-weight: 600;
+      color: #0F172A;
+    }
+    .chapter-info p {
+      font-size: 0.85rem;
+      color: #64748B;
+    }
+    .landing-nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+    .landing-nav a {
+      color: white;
+      font-weight: 500;
+    }
+    .landing-nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="landing">
+    <nav class="landing-nav">
+      <a href="/" style="font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:8px">
+        <span style="width:32px;height:32px;background:#3B82F6;border-radius:6px;display:flex;align-items:center;justify-content:center">R</span>
+        Reseaux Informatiques
+      </a>
+      <div class="landing-nav-links">
+        <a href="/pages/courses.html">Cours</a>
+        <a href="/pages/exercises.html">Exercices</a>
+        <a href="/pages/leaderboard.html">Classement</a>
+        <a href="/pages/login.html" class="btn btn-primary" style="padding:8px 20px;font-size:0.85rem">Connexion</a>
+      </div>
+    </nav>
+
+    <div class="page-content">
+      <section class="hero">
+        <h1>Maîtrisez les Réseaux Informatiques</h1>
+        <p>Plateforme complète pour apprendre le modèle OSI, le subnetting, TCP/UDP, le routage et bien plus. Avec quiz, exercices corrigés et système de progression.</p>
+        <div class="hero-buttons">
+          <a href="/pages/register.html" class="btn btn-primary">Commencer gratuitement</a>
+          <a href="/pages/courses.html" class="btn btn-secondary">Explorer les cours</a>
+        </div>
+      </section>
+
+      <section class="stats">
+        <div class="stats-grid">
+          <div>
+            <div class="stat-number">8</div>
+            <div class="stat-label">Chapitres</div>
+          </div>
+          <div>
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Exercices corrigés</div>
+          </div>
+          <div>
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Questions de quiz</div>
+          </div>
+          <div>
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Gratuit</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            </div>
+            <h3>Cours structurés</h3>
+            <p>Chapitres complets sur OSI, IP, TCP/UDP, routage, sécurité et plus encore.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+            </div>
+            <h3>Exercices corrigés</h3>
+            <p>Des exercices de subnetting, OSI et protocoles avec solutions étape par étape.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+            </div>
+            <h3>Gamification</h3>
+            <p>Gagnez des XP, débloquez des badges et grimpez dans le classement.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapters-preview">
+        <h2>Contenu du cours</h2>
+        <div class="chapter-list">
+          <div class="chapter-item">
+            <div class="chapter-num">1</div>
+            <div class="chapter-info">
+              <h4>Le Modèle OSI</h4>
+              <p>Les 7 couches et leur rôle dans la communication réseau</p>
+            </div>
+          </div>
+          <div class="chapter-item">
+            <div class="chapter-num">2</div>
+            <div class="chapter-info">
+              <h4>Adressage IP & Subnetting</h4>
+              <p>IPv4, CIDR, masques et calcul de sous-réseaux</p>
+            </div>
+          </div>
+          <div class="chapter-item">
+            <div class="chapter-num">3</div>
+            <div class="chapter-info">
+              <h4>TCP vs UDP & Ports</h4>
+              <p>Protocoles de transport, handshake, ports courants</p>
+            </div>
+          </div>
+          <div class="chapter-item">
+            <div class="chapter-num">4</div>
+            <div class="chapter-info">
+              <h4>Routage & Switching</h4>
+              <p>Tables de routage, VLANs, protocoles de routage</p>
+            </div>
+          </div>
+          <div class="chapter-item">
+            <div class="chapter-num">5</div>
+            <div class="chapter-info">
+              <h4>DNS & DHCP</h4>
+              <p>Résolution de noms, attribution automatique d'adresses</p>
+            </div>
+          </div>
+          <div class="chapter-item">
+            <div class="chapter-num">6</div>
+            <div class="chapter-info">
+              <h4>Firewalls & Sécurité</h4>
+              <p>ACLs, NAT, VPN, bonnes pratiques de sécurité</p>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:32px">
+          <a href="/pages/courses.html" class="btn btn-primary">Voir tous les chapitres</a>
+        </div>
+      </section>
+    </div>
+
+    <footer style="background:#0F172A;color:#94A3B8;padding:40px 32px;text-align:center;font-size:0.85rem">
+      <p>&copy; 2024 Reseaux Informatiques. Plateforme d'apprentissage open-source.</p>
+    </footer>
+  </div>
+</body>
+</html>
+

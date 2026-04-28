@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercices - Reseaux Informatiques</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .filter-select {
+      padding: 8px 14px;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: white;
+    }
+    .exercise-card {
+      background: white;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+      transition: box-shadow 0.2s ease;
+    }
+    .exercise-card:hover {
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    .exercise-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .exercise-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0F172A;
+    }
+    .exercise-topic {
+      font-size: 0.8rem;
+      color: #64748B;
+      margin-top: 2px;
+    }
+    .exercise-statement {
+      background: #F8FAFC;
+      border-left: 3px solid #3B82F6;
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .exercise-statement br { display: block; content: ''; margin-bottom: 8px; }
+    .solution-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #3B82F6;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+    .solution {
+      display: none;
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .solution.open {
+      display: block;
+    }
+    .solution-step {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #BBF7D0;
+    }
+    .solution-step:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .step-num {
+      width: 28px;
+      height: 28px;
+      background: #10B981;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step-content h5 {
+      font-weight: 600;
+      color: #0F172A;
+      margin-bottom: 4px;
+    }
+    .step-content p {
+      color: #334155;
+      font-size: 0.9rem;
+    }
+    .calc-section {
+      background: white;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .calc-section h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0F172A;
+      margin-bottom: 16px;
+    }
+    .calc-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      margin-bottom: 16px;
+    }
+    .calc-output {
+      background: #F8FAFC;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .calc-output-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .calc-output-item:last-child {
+      border-bottom: none;
+    }
+    .daily-challenge {
+      background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+      color: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .daily-challenge {
+      background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+      color: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .daily-challenge h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .daily-challenge p {
+      opacity: 0.9;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+    .solved-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: #D1FAE5;
+      color: #065F46;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <a href="/">
+          <span class="sidebar-brand-icon">R</span>
+          Reseaux
+        </a>
+      </div>
+      <nav class="sidebar-nav" id="auth-nav"></nav>
+      <div class="sidebar-footer" id="sidebar-footer"></div>
+    </aside>
+
+    <main class="main-content">
+      <div class="top-bar">
+        <h2 class="top-bar-title">Exercices</h2>
+        <button class="mobile-toggle" onclick="toggleMobileSidebar()">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+
+      <div class="page-content">
+        <div class="daily-challenge" id="daily-challenge">
+          <h3>Defi quotidien</h3>
+          <p>Resoudre un exercice par jour pour gagner +15 XP bonus !</p>
+          <button class="btn btn-lg" style="background:white;color:#3B82F6" onclick="loadDaily()" id="btn-daily">Voir le defi</button>
+        </div>
+
+        <div class="calc-section">
+          <h3>
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display:inline-block;vertical-align:middle;margin-right:6px"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            Calculateur de sous-reseaux
+          </h3>
+          <div class="calc-row">
+            <div class="form-group" style="flex:1;margin-bottom:0">
+              <label class="form-label">Adresse IP / CIDR</label>
+              <input type="text" class="form-input" id="calc-ip" placeholder="192.168.1.0/24">
+            </div>
+            <button class="btn btn-primary" onclick="calculateSubnet()">Calculer</button>
+          </div>
+          <div class="calc-output" id="calc-result" style="display:none">
+            <div class="calc-output-item"><span>Adresse reseau</span><strong id="res-network"></strong></div>
+            <div class="calc-output-item"><span>Masque</span><strong id="res-mask"></strong></div>
+            <div class="calc-output-item"><span>Broadcast</span><strong id="res-broadcast"></strong></div
