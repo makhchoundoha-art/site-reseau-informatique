@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Reseaux Informatiques</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .admin-tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid #E2E8F0;
+      margin-bottom: 24px;
+    }
+    .admin-tab {
+      padding: 10px 18px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #64748B;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      font-family: inherit;
+    }
+    .admin-tab:hover {
+      color: #3B82F6;
+    }
+    .admin-tab.active {
+      color: #3B82F6;
+      border-bottom-color: #3B82F6;
+    }
+    .tab-content.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <a href="/">
+          <span class="sidebar-brand-icon">R</span>
+          Reseaux
+        </a>
+      </div>
+      <nav class="sidebar-nav" id="auth-nav"></nav>
+      <div class="sidebar-footer" id="sidebar-footer"></div>
+    </aside>
+
+    <main class="main-content">
+      <div class="top-bar">
+        <h2 class="top-bar-title">Administration</h2>
+        <button class="mobile-toggle" onclick="toggleMobileSidebar()">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+
+      <div class="page-content">
+        <div class="admin-tabs">
+          <button class="admin-tab active" onclick="showTab('users')">Utilisateurs</button>
+          <button class="admin-tab" onclick="showTab('stats')">Statistiques</button>
+        </div>
+
+        <div id="tab-users" class="tab-content">
+          <h3 class="card-title mb-3">Liste des utilisateurs</h3>
+          <div id="users-table">Chargement...</div>
+        </div>
+
+        <div id="tab-stats" class="tab-content hidden">
+          <div class="stats-row">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-label">Utilisateurs</span>
+                <div class="stat-card-icon blue">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/></svg>
+                </div>
+              </div>
+              <div class="stat-card-value" id="admin-user-count">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-label">XP Total</span>
+                <div class="stat-card-icon green">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+              </div>
+              <div class="stat-card-value" id="admin-total-xp">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-label">Exercices</span>
+                <div class="stat-card-icon yellow">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                </div>
+              </div>
+              <div class="stat-card-value" id="admin-ex-count">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    if (!isAdmin()) {
+      window.location.href = '/';
+    }
+
+    function showTab(name) {
+      document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+      document.querySelector(`.admin-tab[onclick="showTab('${name}')"]`).classList.add('active');
+      document.getElementById(`tab-${name}`).classList.remove('hidden');
+    }
+
+    async function loadUsers() {
+      try {
+        const users = await apiService.users.getLeaderboard();
+        document.getElementById('users-table').innerHTML = `
+          <table class="data-table">
+            <thead><tr><th>Utilisateur</th><th>Email</th><th>Role</th><th>XP</th><th>Chapitres</th><th>Exercices</th><th>Serie</th></tr></thead>
+            <tbody>
+              ${users.map(u => `
+                <tr>
+                  <td><strong>${u.username}</strong></td>
+                  <td>${u.email}</td>
+                  <td><span class="badge ${u.role === 'admin' ? 'badge-blue' : 'badge-easy'}">${u.role}</span></td>
+                  <td>${u.xp || 0}</td>
+                  <td>${(u.completedChapters || []).length}</td>
+                  <td>${(u.exercisesSolved || []).length}</td>
+                  <td>${u.streak || 0}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+        document.getElementById('admin-user-count').textContent = users.length;
+        document.getElementById('admin-total-xp').textContent = users.reduce((s, u) => s + (u.xp || 0), 0);
+      } catch (e) {
+        document.getElementById('users-table').innerHTML = '<p class="alert alert-error">Erreur de chargement.</p>';
+      }
+    }
+
+    async function loadExCount() {
+      try {
+        const ex = await apiService.exercises.getAll();
+        document.getElementById('admin-ex-count').textContent = (ex.exercises || []).length;
+      } catch (e) {}
+    }
+
+    loadUsers();
+    loadExCount();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classement - Reseaux Informatiques</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .leaderboard-table {
+      background: white;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .leaderboard-row {
+      display: flex;
+      align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid #E2E8F0;
+      transition: background 0.2s ease;
+    }
+    .leaderboard-row:hover {
+      background: #F8FAFC;
+    }
+    .leaderboard-row:last-child {
+      border-bottom: none;
+    }
+    .lb-rank {
+      width: 40px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #64748B;
+      text-align: center;
+    }
+    .lb-rank.top3 {
+      color: #F59E0B;
+    }
+    .lb-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #3B82F6;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin: 0 16px;
+    }
+    .lb-info {
+      flex: 1;
+    }
+    .lb-name {
+      font-weight: 600;
+      color: #0F172A;
+    }
+    .lb-badges {
+      font-size: 0.75rem;
+      color: #64748B;
+    }
+    .lb-xp {
+      font-weight: 700;
+      color: #3B82F6;
+      font-size: 1.1rem;
+    }
+    .lb-streak {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 16px;
+      font-size: 0.85rem;
+      color: #EF4444;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <a href="/">
+          <span class="sidebar-brand-icon">R</span>
+          Reseaux
+        </a>
+      </div>
+      <nav class="sidebar-nav" id="auth-nav"></nav>
+      <div class="sidebar-footer" id="sidebar-footer"></div>
+    </aside>
+
+    <main class="main-content">
+      <div class="top-bar">
+        <h2 class="top-bar-title">Classement</h2>
+        <button class="mobile-toggle" onclick="toggleMobileSidebar()">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+
+      <div class="page-content">
+        <div class="page-header">
+          <h1>Top Utilisateurs</h1>
+          <p>Les meilleurs apprenants par XP totaux</p>
+        </div>
+        <div class="leaderboard-table" id="leaderboard">
+          <p class="card-text" style="padding:20px">Chargement...</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    async function loadLeaderboard() {
+      try {
+        const users = await apiService.users.getLeaderboard();
+        const container = document.getElementById('leaderboard');
+        const currentUser = getUser();
+
+        if (!users.length) {
+          container.innerHTML = '<p class="card-text" style="padding:20px">Aucun utilisateur pour le moment.</p>';
+          return;
+        }
+
+        container.innerHTML = users.map((u, i) => {
+          const isMe = currentUser && u._id === currentUser.id;
+          return `
+            <div class="leaderboard-row" style="${isMe ? 'background:#EFF6FF' : ''}">
+              <div class="lb-rank ${i < 3 ? 'top3' : ''}">${i + 1}</div>
+              <div class="lb-avatar">${u.username.charAt(0).toUpperCase()}</div>
+              <div class="lb-info">
+                <div class="lb-name">${u.username} ${isMe ? '(Vous)' : ''}</div>
+                <div class="lb-badges">${(u.badges || []).join(', ') || 'Aucun badge'}</div>
+              </div>
+              <div class="lb-streak">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/></svg>
+                ${u.streak || 0}
+              </div>
+              <div class="lb-xp">${u.xp || 0} XP</div>
+            </div>
+          `;
+        }).join('');
+      } catch (e) {
+        document.getElementById('leaderboard').innerHTML = '<p class="alert alert-error" style="padding:20px">Erreur de chargement.</p>';
+      }
+    }
+
+    loadLeaderboard();
+  </script>
+</body>
+</html>
+
